@@ -20,7 +20,7 @@ h = {
 
 t = pq.read_table('parquet/nyc-marathon-2017-eventRunner.parquet')
 df = t.to_pandas()
-for i, id in enumerate(tqdm(df['runnerId'][20000:30000])):
+for i, id in enumerate(tqdm(df['runnerId'][40000:50000])):
     d = f'{{"runnerId":{id}}}'
     r = rq.post(url, headers=h, data=d)
     json = r.json()['response']
@@ -36,4 +36,4 @@ for i, id in enumerate(tqdm(df['runnerId'][20000:30000])):
         s1 = pd.concat([s1, s2], axis=1)
 df = pd.DataFrame(s1).T.reset_index().drop(columns=['index'])
 df = df.infer_objects()
-df.to_csv('split3.csv')
+df.to_csv('split5.csv')
