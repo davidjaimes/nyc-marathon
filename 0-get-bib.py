@@ -18,8 +18,8 @@ h = {
     'token': 'ebe04e9c08064538',
 }
 
-start = 50000
-end = 60000
+start = 70000
+end = 80000
 for bib in tqdm(range(start, end)):
     d = f'{{"eventCode":"M2017","bib":"{bib}"}}'
     r = rq.post(url, headers=h, data=d)
@@ -37,4 +37,4 @@ for bib in tqdm(range(start, end)):
 df = pd.DataFrame(s1).T.reset_index().drop(columns=['index'])
 df = df.infer_objects()
 table = pa.Table.from_pandas(df)
-pq.write_table(table, 'bib6.parquet')
+pq.write_table(table, 'bib8.parquet')
