@@ -21,7 +21,7 @@ h = {
 start = 70000
 end = 80000
 for bib in tqdm(range(start, end)):
-    d = f'{{"eventCode":"M2017","bib":"{bib}"}}'
+    d = f'{{"eventCode":"M2016","bib":"{bib}"}}'
     r = rq.post(url, headers=h, data=d)
     json = r.json()['response']
     if json == None:
