@@ -18,10 +18,10 @@ h = {
     'token': 'ebe04e9c08064538',
 }
 
-start = 70000
-end = 80000
+start = 30000
+end = 40000
 for bib in tqdm(range(start, end)):
-    d = f'{{"eventCode":"M2015","bib":"{bib}"}}'
+    d = f'{{"eventCode":"M2014","bib":"{bib}"}}'
     r = rq.post(url, headers=h, data=d)
     json = r.json()['response']
     if json == None:
@@ -37,4 +37,4 @@ for bib in tqdm(range(start, end)):
 df = pd.DataFrame(s1).T.reset_index().drop(columns=['index'])
 df = df.infer_objects()
 table = pa.Table.from_pandas(df)
-pq.write_table(table, 'bib8.parquet')
+pq.write_table(table, 'bib4.parquet')
