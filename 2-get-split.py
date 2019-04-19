@@ -18,7 +18,7 @@ h = {
     'token': 'ebe04e9c08064538',
 }
 
-t = pq.read_table('parquet/nyc-marathon-2014-eventRunner.parquet')
+t = pq.read_table('parquet/nyc-marathon-2013-eventRunner.parquet')
 df = t.to_pandas()
 for i, id in enumerate(tqdm(df['runnerId'][50000:])):
     d = f'{{"runnerId":{id}}}'
