@@ -22,7 +22,7 @@ h = {
 number = 2
 start = int(f'{number - 1}0000')
 end = int(f'{number}0000')
-t = pq.read_table('parquet/nyc-marathon-1998-eventRunner.parquet')
+t = pq.read_table('parquet/nyc-marathon-1997-eventRunner.parquet')
 df = t.to_pandas()
 for i, id in enumerate(tqdm(df['runnerId'][start:end])):
     d = f'{{"runnerId":{id}}}'
