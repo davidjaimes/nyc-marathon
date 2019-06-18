@@ -22,27 +22,29 @@ h = {
 }
 raceYear = np.array([2018, 2017, 2016, 2015, 2014, 2013, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990, 1989, 1988, 1987, 1986, 1985, 1984, 1983, 1982, 1981, 1980, 1979, 1978, 1977, 1976, 1975, 1974, 1973, 1972, 1971, 1970])
 eventCode = np.array(['M2018', 'M2017', 'M2016', 'M2015', 'M2014', '40', '108', 'b01107', 'a91101', 'a81102', 'a71104', 'a61105', 'a51106', 'a41107', 'NYC2003', 'NYC2002', 'b11106', 'NYC2000', '991107', '981101', '971102', '961103', '951112', '941106', '931114', '921101', '911103', '901104', '891105', '881106', '871101', '861102', '851027', '841028', '831023', '821024', '811025', '801026', '791021', '781022', '771023', '761024', '750928', '740929', '730930', '721001', '710919', '700913'])
+
 number = 1
-year = 1985
+year = 1970
 yearEvent = eventCode[raceYear == year]
 print(f'Year {year} with event code: {yearEvent[0]}')
+
 start = int(f'{number - 1}0000')
 end = int(f'{number}0000')
-for bib in tqdm(range(start, end)):
-    d = f'{{"eventCode":"{yearEvent[0]}","bib":"{bib}"}}'
+for place in tqdm(range(start, end)):
+    d = f'{{"eventCode":"{yearEvent[0]}","overallPlace":"{place}"}}'
     r = rq.post(url, headers=h, data=d)
     json = r.json()['response']
     if json == None:
-        if bib == start:
+        if place == start:
             start += 1
         continue
-    elif bib == start:
+    elif place == start:
         s1 = pd.Series(json)
-        print(f'Save bib number: {bib}')
+        print(f'Save overallPlace number: {place}')
     else:
         s2 = pd.Series(json)
         s1 = pd.concat([s1, s2], axis=1)
 df = pd.DataFrame(s1).T.reset_index().drop(columns=['index'])
 df = df.infer_objects()
 table = pa.Table.from_pandas(df)
-pq.write_table(table, f'bib{number}.parquet')
+pq.write_table(table, f'place{number}.parquet')
