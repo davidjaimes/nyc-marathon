@@ -13,4 +13,4 @@ for i, f in enumerate(fnames):
         df1 = pd.concat([df1, t.to_pandas()])
 df = df1.reset_index().drop(columns=['index'])
 table = pa.Table.from_pandas(df)
-pq.write_table(table, 'nyc-marathon-1972-eventRunner.parquet')
+pq.write_table(table, 'nyc-marathon-1973-eventRunner.parquet')
