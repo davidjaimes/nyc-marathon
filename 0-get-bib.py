@@ -4,6 +4,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import requests as rq
 from tqdm import tqdm
+import time
 
 #token = 'ebe04e9c08064538'  #years 2004-2018
 token = '6112c32703f442f0'
