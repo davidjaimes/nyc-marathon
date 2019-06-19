@@ -36,5 +36,6 @@ for number in tqdm(range(1, int(pages + 1))):
 df = df1.reset_index().drop(columns=['index'])
 df = df.infer_objects()
 print(len(df))
+print(df.columns)
 table = pa.Table.from_pandas(df)
-pq.write_table(table, f'all-bibs/nyc-marathon-{year}-bibs.parquet')
+pq.write_table(table, f'eventRunner/nyc-marathon-{year}-eventRunner.parquet')
