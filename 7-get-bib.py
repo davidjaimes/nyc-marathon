@@ -7,7 +7,7 @@ from tqdm import tqdm
 import glob as gl
 from time import sleep
 
-year = 1979
+year = 1980
 token = '6112c32703f442f0'
 url = 'https://results.nyrr.org/api/runners/finishers-filter'
 raceYear = np.array([2018, 2017, 2016, 2015, 2014, 2013, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990, 1989, 1988, 1987, 1986, 1985, 1984, 1983, 1982, 1981, 1980, 1979, 1978, 1977, 1976, 1975, 1974, 1973, 1972, 1971, 1970])
@@ -18,19 +18,18 @@ yearEvent = eventCode[raceYear == year]
 getItems = totalItems[raceYear == year]
 if getItems[0] <= 5000:
     pages = 1
-    roundItems = int(np.ceil(getItems[0]))
 else:
     pages = np.ceil(getItems[0] / 5000)
-    roundItems = 5000
 for number in tqdm(range(1, int(pages + 1))):
-    data = f'{{"eventCode":"{yearEvent[0]}","runnerId":null,"searchString":null,"countryCode":null,"stateProvince":null,"city":null,"teamName":null,"gender":null,"ageFrom":null,"ageTo":null,"overallPlaceFrom":"0","overallPlaceTo":null,"paceFrom":null,"paceTo":null,"overallTimeFrom":null,"overallTimeTo":null,"gunTimeFrom":null,"gunTimeTo":null,"ageGradedTimeFrom":null,"ageGradedTimeTo":null,"ageGradedPlaceFrom":null,"ageGradedPlaceTo":null,"ageGradedPerformanceFrom":null,"ageGradedPerformanceTo":null,"handicap":null,"sortColumn":"overallTime","sortDescending":false,"pageIndex":{number},"pageSize":{roundItems}}}'
+    placeFrom = 5000 * (number - 1)
+    data = f'{{"eventCode":"{yearEvent[0]}","runnerId":null,"searchString":null,"countryCode":null,"stateProvince":null,"city":null,"teamName":null,"gender":null,"ageFrom":null,"ageTo":null,"overallPlaceFrom":"{placeFrom}","overallPlaceTo":null,"paceFrom":null,"paceTo":null,"overallTimeFrom":null,"overallTimeTo":null,"gunTimeFrom":null,"gunTimeTo":null,"ageGradedTimeFrom":null,"ageGradedTimeTo":null,"ageGradedPlaceFrom":null,"ageGradedPlaceTo":null,"ageGradedPerformanceFrom":null,"ageGradedPerformanceTo":null,"handicap":null,"sortColumn":"overallTime","sortDescending":false,"pageIndex":1,"pageSize":5000}}'
+
     response = rq.post(url, headers=headers, data=data)
     df = pd.DataFrame(response.json()['response']['items'])
     df = df.infer_objects()
     print('DataFrames rows: ', len(df))
     table = pa.Table.from_pandas(df)
     pq.write_table(table, f'bib{number}.parquet')
-    sleep(5)
 
 # Merge all bibs together to single file.
 fnames = gl.glob("*.parquet")
@@ -44,4 +43,4 @@ for i, f in enumerate(fnames):
 df = df1.reset_index().drop(columns=['index'])
 print(len(df))
 table = pa.Table.from_pandas(df)
-pq.write_table(table, f'bibs/nyc-marathon-{year}-bibs.parquet')
+pq.write_table(table, f'all-bibs/nyc-marathon-{year}-bibs.parquet')
