@@ -20,9 +20,10 @@ h = {
     'token': f'{token}',
 }
 number = 1
+year = 1979
 start = int(f'{number - 1}0000')
 end = int(f'{number}0000')
-t = pq.read_table('eventRunner/nyc-marathon-1977-eventRunner.parquet')
+t = pq.read_table(f'eventRunner/nyc-marathon-{year}-eventRunner.parquet')
 df = t.to_pandas()
 for i, id in enumerate(tqdm(df['runnerId'][start:end])):
     d = f'{{"runnerId":{id}}}'

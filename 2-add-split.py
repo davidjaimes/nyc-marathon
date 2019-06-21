@@ -3,6 +3,7 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 
+year = 1978
 fnames = gl.glob("*.csv")
 fnames = sorted(fnames)
 for i, f in enumerate(fnames):
@@ -13,4 +14,4 @@ for i, f in enumerate(fnames):
         df1 = pd.concat([df1, df])
 df = df1.reset_index().drop(columns=['index', 'Unnamed: 0'])
 table = pa.Table.from_pandas(df)
-pq.write_table(table, 'nyc-marathon-1977-resultDetails.parquet')
+pq.write_table(table, f'resultDetails/nyc-marathon-{year}-resultDetails.parquet')
