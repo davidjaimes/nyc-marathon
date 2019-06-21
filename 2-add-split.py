@@ -3,7 +3,7 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-year = 1986
+year = 1987
 fnames = gl.glob("*.csv")
 fnames = sorted(fnames)
 for i, f in enumerate(fnames):
