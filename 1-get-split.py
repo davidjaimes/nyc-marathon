@@ -20,7 +20,7 @@ h = {
     'token': f'{token}',
 }
 number = 3
-year = 1993
+year = 1994
 start = int(f'{number - 1}0000')
 end = int(f'{number}0000')
 t = pq.read_table(f'eventRunner/nyc-marathon-{year}-eventRunner.parquet')
